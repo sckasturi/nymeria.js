@@ -1,6 +1,17 @@
 {
-    "nick":  "Nymeria-js",
-    "pass":  "password",
-    "chan":  "#channel"
+    "nick"   : "Nymeria-js",
+    "pass"   : "password",
+    "chan"   : "#channel",
+    "trusted": {
+        "cmd": [
+	    "trustedcheck",
+	    "msg",
+	    "act"
+	],
+	"cloaks": [
+	    "april-fools/2014/runnerup/skasturi",
+	    "gateway/shell/cadoth.net/x-bowlrewzdnbiphub"
+	]
+    }
 }
 
