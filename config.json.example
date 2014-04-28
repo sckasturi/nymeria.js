@@ -1,9 +1,12 @@
 {
-    "nick"   : "Nymeria-js",
-    "pass"   : "password",
-    "chan"   : "#channel",
+    "nick": "Nymeria-js",
+    "pass": "password",
+    "chan": ["##techfilmer", "##techfilmer-bot"],
+    "logchan": ##techfilmer-bot,
+    "prefix": ".",
     "trusted": {
         "cmd": [
+	    "tcheck",
 	    "trustedcheck",
 	    "msg",
 	    "act"
@@ -12,6 +15,18 @@
 	    "april-fools/2014/runnerup/skasturi",
 	    "gateway/shell/cadoth.net/x-bowlrewzdnbiphub"
 	]
+    },
+    "op": {
+        "cmd": [
+	    "op",
+	    "deop",
+	    "opcheck",
+	    "ocheck"
+	],
+        "cloaks": {
+	    "april-fools/2014/runnerup/skasturi": ["##techfilmer"],
+	    "gateway/shell/cadoth.net/x-vdxrszmhgrgmnlck": ["##techfilmer"]
+	 }
     }
 }
 
