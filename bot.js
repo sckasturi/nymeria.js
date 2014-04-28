@@ -6,21 +6,34 @@ console.log("Starting bot.");
 
 bot.on('raw', function(msg) {
     if (msg.rawCommand == "PRIVMSG") {
-        var text = msg.args[1].split(" ");
 	var nick = msg.nick;
 	var cloak = msg.host;
 	var chan = msg.args[0];
-	var cmd = text[1]
 	
-	if(text[0] == config.nick + ":") {
-	    if(trusted.cmd.indexOf(cmd) >= 0 && trusted.cloaks.indexOf(cloak) >= 0 ) {
-                if(cmd = "trustedcheck") {
-		   console.log("hi!");// bot.say(msg.args[0], nick + ": Yes! You are trusted!");
+	if(msg.args[1][0] == config.prefix) {
+	    msg.args[1] = msg.args[1].replace(config.prefix, config.nick + ": ");
+	}
+        console.log(msg.args[1]);
+	var text = msg.args[1].split(" ");
+	var cmd = text[1]
+
+	if(text[0] == config.nick + ":" || text[0] == config.nick + ",") {
+	    if(trusted.cmd.indexOf(cmd) >= 0) {
+	    if(trusted.cloaks.indexOf(cloak) >= 0) {
+                if(cmd == "trustedcheck") {
+		   bot.say(msg.args[0], nick + ": Yes! You are trusted!");
 		}
-		else if(cmd = "msg") {
-		    bot.say(text[2], msg.args[1].split(" ", 2)[2]);
+		else if(cmd == "msg") {
+		    console.log("Sending msg");
+		    var send = msg.args[1].replace(config.nick + ": msg " + text[2] + " ", "");
+		    console.log(text);
+		    bot.say(text[2], send);
 		}
 	    }
+	    else {
+	        bot.say(msg.args[0], nick + ": You're not the boss of me!");
+	    }
+	 }
 	 else {   
 	    if(text[1] == "help") {
 	        bot.say("##techfilmer", nick + ": commands: join, part, quit, say, help");
