@@ -1,7 +1,8 @@
 var irc = require('fwilson-irc-fork');
 var config = require('./config.json');
 var bot = new irc.Client('chat.freenode.net', config.nick, {channels: [config.chan], sasl: "true", userName: "olympicsbot", password: config.pass});
-var trusted = config.trusted
+var trusted = config.trusted;
+var op = config.op;
 console.log("Starting bot.");
 
 bot.on('raw', function(msg) {
@@ -13,15 +14,15 @@ bot.on('raw', function(msg) {
 	if(msg.args[1][0] == config.prefix) {
 	    msg.args[1] = msg.args[1].replace(config.prefix, config.nick + ": ");
 	}
-        console.log(msg.args[1]);
+	
 	var text = msg.args[1].split(" ");
 	var cmd = text[1]
 
 	if(text[0] == config.nick + ":" || text[0] == config.nick + ",") {
-	    if(trusted.cmd.indexOf(cmd) >= 0) {
-	    if(trusted.cloaks.indexOf(cloak) >= 0) {
-                if(cmd == "trustedcheck") {
-		   bot.say(msg.args[0], nick + ": Yes! You are trusted!");
+	    if(config.trusted.cmd.indexOf(cmd) >= 0) {
+	    if(config.trusted.cloaks.indexOf(cloak) >= 0) {
+                if(cmd == "trustedcheck" || cmd == "tcheck") {
+		   bot.say(chan, nick + ": Yes! You are trusted!");
 		}
 		else if(cmd == "msg") {
 		    console.log("Sending msg");
@@ -31,10 +32,26 @@ bot.on('raw', function(msg) {
 		}
 	    }
 	    else {
-	        bot.say(msg.args[0], nick + ": You're not the boss of me!");
-	    }
-	 }
-	 else {   
+	        bot.say(chan, nick + ": You're not the boss of me!");
+	    }}
+
+	    else if(config.op.cmd.indexOf(cmd) >= 0) {
+	    if(Object.keys(config.op.cloaks).indexOf(cloak) >= 0) {
+	    if(config.op.cloaks[cloak].indexOf(chan) >= 0) {
+	        if(cmd == "opcheck" || cmd == "ocheck") {
+		    bot.say(chan, nick + ": Yes! You are an op in " + chan + "!");
+		}
+		else if(cmd == "op") {
+		    bot.send('MODE', chan, '+o', nick);
+		}
+		else if(cmd == "deop") {
+		    bot.send('MODE', chan, '-o', nick);
+                }
+	    }}
+	    else {
+	        bot.say(chan, nick + ": You're not the boss of me!");
+	    }}
+	    else {
 	    if(text[1] == "help") {
 	        bot.say("##techfilmer", nick + ": commands: join, part, quit, say, help");
 	    }
