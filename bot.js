@@ -15,23 +15,28 @@ function runcmd(cmd, msg) {
 	var text = msg.args[1].split(" ");
 	var cmd = text[1];
 
-    if(cmd == "trustedcheck" || cmd == "tcheck") {
+        if(cmd == "trustedcheck" || cmd == "tcheck") {
 	   bot.say(chan, nick + ": Yes! You are trusted!");
 	}
 	else if(cmd == "msg") {
-		var send = msg.args[1].replace(config.nick + ": msg " + text[2] + " ", "");
-		bot.say(chan, send);
+	    var send = msg.args[1].replace(config.nick + ": msg " + text[2] + " ", "");
+	    bot.say(chan, send);
 	}
 	else if(cmd == "act") {
-		var send = msg.args[1].replace(config.nick + ": act " + text[2] + " ", "");
-		bot.action(chan, send);
+            var send = msg.args[1].replace(config.nick + ": act " + text[2] + " ", "");
+	    bot.action(chan, send);
 	}
 	else if(cmd == "op") {
-		bot.send('MODE', chan, '+o', nick);
+	    bot.send('MODE', chan, '+o', nick);
 	}
 	else if(cmd == "deop") {
 	    bot.send('MODE', chan, '-o', nick);
-    }
+	}
+	else if(cmd == "do") {
+	    var send = msg.args[1].replace(config.nick + ": do " + text[2] + " ", "");
+	    console.log(send);
+	    bot.send(text.splice(2));
+	}
 }
 
 function log(msg) {
@@ -45,14 +50,10 @@ bot.addListener('pm', function (nick, msg) {
     log("<" + nick + "> " + msg);
 });
 
-//setTimeout(function() {}, 2000);
-//bot.join(config.logchan.chan + config.logchan.key);
-//console.log("Joining logchan");
 
 bot.on('raw', function(msg) {
     if (msg.rawCommand == "NOTICE" && msg.args[0][0] != "#") {
 		log("-" + msg.nick + "- " + msg.args[1]);
-	//console.log("Notice has been sent by " + msg.args[0] + ", logging it to log chan");
     }
 
     if (msg.rawCommand == "PRIVMSG") {
@@ -60,10 +61,6 @@ bot.on('raw', function(msg) {
 	var cloak = msg.host;
 	var chan = msg.args[0];
 	
-	/*if(msg.args[0][0] != "#") {
-	    bot.say(config.logchan.chan, "<" + chan + "> " + msg.args[1]);
-	    console.log("Private Message has been sent, logging it to log chan");
-	}*/
 	if(msg.args[1][0] == config.prefix) {
 	    msg.args[1] = msg.args[1].replace(config.prefix, config.nick + ": ");
 	}
@@ -83,15 +80,7 @@ bot.on('raw', function(msg) {
 	    else if(config.op.cmd.indexOf(cmd) >= 0) {
 	    if(Object.keys(config.op.cloaks).indexOf(cloak) >= 0) {
 	    if(config.op.cloaks[cloak].indexOf(chan) >= 0) {
-	        if(cmd == "opcheck" || cmd == "ocheck") {
-		    bot.say(chan, nick + ": Yes! You are an op in " + chan + "!");
-		}
-		else if(cmd == "op") {
-		    bot.send('MODE', chan, '+o', nick);
-		}
-		else if(cmd == "deop") {
-		    bot.send('MODE', chan, '-o', nick);
-                }
+	        runcmd(cmd, msg);
 	    }}
 	    else {
 	        bot.say(chan, nick + ": You're not the boss of me!");
