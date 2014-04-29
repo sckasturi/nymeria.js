@@ -1,0 +1,16 @@
+echo Hi there, it looks like you are running Nymeria.js for the first time, let\'s check some stuff\!
+echo
+
+if [[ ! -f config.json ]]; then
+	echo Copying over config file, make sure to edit it.
+	echo
+    cp config.json.example config.json
+fi
+
+if [[ ! -f memo.txt ]]; then
+	echo Hmm, it we need to create a file for memos. Creating file.
+	echo
+    echo 0,0,do not remove this memo > memo.txt
+fi
+
+echo Well, it looks like everything is setup\! If you have any questions feel free to contact me at srijay@techfilmer.com or file an issue at https://github.com/sckasturi/nymeria.js/issues :\)

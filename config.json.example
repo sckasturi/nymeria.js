@@ -35,7 +35,8 @@
 	    "do",
 	    "join",
 	    "part",
-	    "quit"
+	    "quit",
+	    "nick"
 	],
 	"cloaks": [
 	    "april-fools/2014/runnerup/skasturi",
@@ -44,21 +45,21 @@
     },
     "cmd": [
         "memo",
-	"help",
-	"oracle",
-	"ddate",
-	"coffee",
-	"cookie",
-	"goat",
-	"wolf",
-	"bear",
-	"kitty",
-	"penguin",
-	"tea",
-	"troll",
-	"ping",
-	"keke",
-	"kekse"
+    	"help",
+    	"oracle",
+    	"ddate",
+    	"coffee",
+    	"cookie",
+    	"goat",
+    	"wolf",
+    	"bear",
+    	"kitty",
+    	"penguin",
+    	"tea",
+    	"troll",
+    	"ping",
+    	"keke",
+    	"kekse"
     ]
 }
 

@@ -24,7 +24,7 @@ function sendmemo(msg) {
     var memoarr = {
         "nick": [],
         "send": [],
-	"memo": []
+	    "memo": []
     }
     var nick = msg.nick;
     var chan = msg.args[0];
@@ -56,15 +56,21 @@ function runcmd(cmd, msg) {
 	var text = msg.args[1].split(" ");
 	var cmd = text[1].toLowerCase();
 
-        if(cmd == "trustedcheck" || cmd == "tcheck") {
+    if(cmd == "trustedcheck" || cmd == "tcheck") {
 	   bot.say(chan, nick + ": Yes! You are trusted!");
+	}
+	if(cmd == "opcheck") {
+	   bot.say(chan, nick + ": Yes! You are an op in {0}!".format(chan));
+	}
+	if(cmd == "ocheck" || cmd == "ownercheck") {
+		bot.say(chan, nick + ": Yes! You are my owner!")
 	}
 	else if(cmd == "msg") {
 	    var send = msg.args[1].replace("{0}: msg {1} ".format(config.nick, text[2]), "");
 	    bot.say(chan, send);
 	}
 	else if(cmd == "act") {
-            var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
+        var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
 	    bot.action(chan, send);
 	}
 	else if(cmd == "op") {
@@ -107,7 +113,7 @@ function runcmd(cmd, msg) {
 	    else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
 	}
 	else if(cmd == "cookie") {
-	    if(text.length == 3) { bot.action(chan, "gets bcode a plate of cookies and a glass of milk".format(text[2])); }
+	    if(text.length == 3) { bot.action(chan, "gets {0} a plate of cookies and a glass of milk".format(text[2])); }
 	}
 	else if(cmd == "goat") {
 	    if(text.length == 3) { bot.say(chan, "{0}'s goat walks by and kicks {1}".format(nick, text[2])); }
@@ -119,18 +125,28 @@ function runcmd(cmd, msg) {
 	    if(text.length == 3) { bot.say(chan, "{0}'s bear walks by and gives {1} a huge bear hug".format(nick, text[2])); }
 	}
 
-        else if(cmd == "kitty") {
-            if(text.length == 3) { bot.say(chan, "{0}'s kitty climbs into {1}'s lap, curls up, and falls asleep".format(nick, text[2])); }
-        }
-        else if(cmd == "penguin") {
-            if(text.length == 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
-        }
-        else if(cmd == "kekse" || cmd == "keks") {
-            if(text.length == 3) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
-        }
-        else if(cmd == "ping") {
-            bot.say(chan, "Pong!");
-        }
+    else if(cmd == "kitty") {
+       if(text.length == 3) { bot.say(chan, "{0}'s kitty climbs into {1}'s lap, curls up, and falls asleep".format(nick, text[2])); }
+    }
+    else if(cmd == "penguin") {
+        if(text.length == 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
+    }
+    else if(cmd == "kekse" || cmd == "keks") {
+        if(text.length == 3) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
+    }
+    else if(cmd == "ping") {
+        bot.say(chan, "Pong!");
+    }
+    else if(cmd == "quit") {
+    	bot.quit();
+    }
+    else if(cmd == "nick") {
+        config.nick = text[2]
+    	bot.send("NICK", text[2]);
+    }
+    else if(cmd == "botsnack") {
+    	bot.action(chan, "noms happily :3");
+    }
 }
 
 function log(msg) {
@@ -181,16 +197,16 @@ bot.on('raw', function(msg) {
 	    else {
 	        bot.say(chan, nick + ": You're not the boss of me!");
 	    }}
-            if(config.owner.cmd.indexOf(cmd) >= 0) {
-            if(config.owner.cloaks.indexOf(cloak) >= 0) {
-                runcmd(cmd, msg);
-            }
-            else {
-                bot.say(chan, nick + ": You're not the boss of me!");
-            }}
-            if(config.cmd.indexOf(cmd) >= 0) {
-                 runcmd(cmd, msg);
-            }
+        if(config.owner.cmd.indexOf(cmd) >= 0) {
+        if(config.owner.cloaks.indexOf(cloak) >= 0) {
+            runcmd(cmd, msg);
+        }
+        else {
+            bot.say(chan, nick + ": You're not the boss of me!");
+        }}
+        if(config.cmd.indexOf(cmd) >= 0) {
+             runcmd(cmd, msg);
+        }
 	}
     }
 });
