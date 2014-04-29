@@ -2,7 +2,8 @@
     "nick": "Nymeria-js",
     "pass": "password",
     "chan": ["##techfilmer", "##techfilmer-bot"],
-    "logchan": ##techfilmer-bot,
+    "user": "olympicsbot",
+    "logchan": "##techfilmer-bot",
     "prefix": ".",
     "trusted": {
         "cmd": [
@@ -20,13 +21,41 @@
         "cmd": [
 	    "op",
 	    "deop",
-	    "opcheck",
-	    "ocheck"
+	    "opcheck"
 	],
         "cloaks": {
 	    "april-fools/2014/runnerup/skasturi": ["##techfilmer"],
 	    "gateway/shell/cadoth.net/x-vdxrszmhgrgmnlck": ["##techfilmer"]
 	 }
-    }
+    },
+    "owner": {
+        "cmd": [
+	    "ownercheck",
+	    "ocheck",
+	    "do",
+	    "join",
+	    "part",
+	    "quit"
+	],
+	"cloaks": [
+	    "april-fools/2014/runnerup/skasturi",
+	    "wikipedia/Fox-Wilson"
+	]
+    },
+    "cmd": [
+        "memo",
+	"help",
+	"oracle",
+	"ddate",
+	"coffee",
+	"cookie",
+	"goat",
+	"wolf",
+	"bear",
+	"kitty",
+	"penguin",
+	"tea",
+	"troll"
+    ]
 }
 

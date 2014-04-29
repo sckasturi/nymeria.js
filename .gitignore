@@ -1,5 +1,4 @@
-node_modules
-*.swp
-
-config.js
+memo.txt
+memo.txt.bak
 config.json
+node_modules

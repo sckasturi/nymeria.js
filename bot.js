@@ -1,12 +1,42 @@
 var irc = require('fwilson-irc-fork');
 var config = require('./config.json');
-var bot = new irc.Client('chat.freenode.net', config.nick, {channels: config.chan, sasl: "true", userName: "olympicsbot", password: config.pass});
-var trusted = config.trusted;
-var op = config.op;
+var bot = new irc.Client('chat.freenode.net', config.nick, {channels: config.chan, sasl: "true", userName: config.user, password: config.pass});
+var fs = require('fs');
+var exec = require('child_process').exec;
 
-bot.addListener('error', function(msg) {
-    console.log('error: ' +  msg);
+bot.addListener('error', function(message) {
+    console.log('error: ', message);
 });
+
+
+function sendmemo(msg) {
+    var memoarr = {
+        "nick": [],
+        "send": [],
+	"memo": []
+    }
+    var nick = msg.nick;
+    var chan = msg.args[0];
+    var i;
+
+    var memos = fs.readFileSync('./memo.txt').toString().split("\n");
+
+    for (i = 0; i < memos.length; i++) {
+        var memo = memos[i].split(",", 2);
+	memoarr.nick.push(memo[0]);
+	memoarr.send.push(memo[1]);
+	memoarr.memo.push(memos[i].replace(memo[0] + "," + memo[1] + ",", ""));
+    }
+    
+    var memonum = memoarr.nick.indexOf(nick);
+    if(memonum >= 0) {
+        bot.say(chan, nick + ", you have a memo: <" + memoarr.send[memonum] + "> " + memoarr.memo[memonum]);
+	var rm = "sed -i\".bak\" \'" + (i - 1) + "d\' memo.txt";
+	console.log(rm);
+	exec(rm, function(error, stdout, stderr) {});
+	
+    }   
+}
 
 function runcmd(cmd, msg) {
 	var nick = msg.nick;
@@ -32,15 +62,29 @@ function runcmd(cmd, msg) {
 	else if(cmd == "deop") {
 	    bot.send('MODE', chan, '-o', nick);
 	}
+	else if(cmd == "mode") {
+	    var send = msg.args[1].replace(config.nick + ": mode" , "");
+	    bot.conn.write("MODE " + chan + send + "\n");
+	}
 	else if(cmd == "do") {
-	    var send = msg.args[1].replace(config.nick + ": do " + text[2] + " ", "");
+	    var send = msg.args[1].replace(config.nick + ": do " , "");
 	    console.log(send);
-	    bot.send(text.splice(2));
+	    bot.conn.write(send + "\n");
+	}
+	else if(cmd == "ddate") {
+	    //bot.say(chan, function(reply, data, args) { run("ddate", [], reply); })'
+	    exec("ddate", function(error, stdout, stderr) { bot.say(chan, stdout); });
+	}
+	else if(cmd == "memo") {
+	    var memo = msg.args[1].replace(config.nick + ": memo " + text[2] + " ", "");
+	    bot.say(chan, "okay, sending your memo");
+	    exec("echo " + text[2] + "," + nick + "," + memo + " >> memo.txt", 
+	        function(error, stdout, stderr) { log("[" + chan + "] " + nick + " sends a memo to " + text[2] + ": " + memo ); });
 	}
 }
 
 function log(msg) {
-    bot.say(config.logchan.chan, msg);
+    bot.say(config.logchan, msg);
 }
 
 console.log("Starting bot.");
@@ -67,6 +111,8 @@ bot.on('raw', function(msg) {
 	
 	var text = msg.args[1].split(" ");
 	var cmd = text[1]
+        
+	sendmemo(msg);
 
 	if(text[0] == config.nick + ":" || text[0] == config.nick + ",") {
 	    if(config.trusted.cmd.indexOf(cmd) >= 0) {
@@ -85,6 +131,16 @@ bot.on('raw', function(msg) {
 	    else {
 	        bot.say(chan, nick + ": You're not the boss of me!");
 	    }}
+            if(config.owner.cmd.indexOf(cmd) >= 0) {
+            if(config.owner.cloaks.indexOf(cloak) >= 0) {
+                runcmd(cmd, msg);
+            }
+            else {
+                bot.say(chan, nick + ": You're not the boss of me!");
+            }}
+            if(config.cmd.indexOf(cmd) >= 0) {
+                 runcmd(cmd, msg);
+            }
 	}
     }
 });
