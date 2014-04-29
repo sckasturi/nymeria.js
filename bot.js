@@ -57,7 +57,7 @@ function runcmd(cmd, msg) {
 	var cmd = text[1].toLowerCase();
 
     if(cmd == "help" || cmd == "list") {
-    	bot.say(chan, "Normal Commands: [{0}], Trusted Commands: {1}, Op Commands: {2}, Onwer Commands: {3}".format(config.cmd.toString(), config.trusted.cmd.toString(), config.op.cmd.toString(), config.owner.cmd.toString()));
+    	bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(config.cmd.toString(), config.trusted.cmd.toString(), config.op.cmd.toString(), config.owner.cmd.toString()));
     }
     else if(cmd == "trustedcheck" || cmd == "tcheck") {
 	   bot.say(chan, nick + ": Yes! You are trusted!");
