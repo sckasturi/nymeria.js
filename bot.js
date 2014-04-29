@@ -24,7 +24,7 @@ function sendmemo(msg) {
     var memoarr = {
         "nick": [],
         "send": [],
-	     "memo": []
+	    "memo": []
     }
     var nick = msg.nick;
     var chan = msg.args[0];
@@ -56,13 +56,16 @@ function runcmd(cmd, msg) {
 	var text = msg.args[1].split(" ");
 	var cmd = text[1].toLowerCase();
 
-    if(cmd == "trustedcheck" || cmd == "tcheck") {
+    if(cmd == "help" || cmd == "list") {
+    	bot.say(chan, "Normal Commands: [{0}], Trusted Commands: {1}, Op Commands: {2}, Onwer Commands: {3}".format(config.cmd.toString(), config.trusted.cmd.toString(), config.op.cmd.toString(), config.owner.cmd.toString()));
+    }
+    else if(cmd == "trustedcheck" || cmd == "tcheck") {
 	   bot.say(chan, nick + ": Yes! You are trusted!");
 	}
-	if(cmd == "opcheck") {
+	else if(cmd == "opcheck") {
 	   bot.say(chan, nick + ": Yes! You are an op in {0}!".format(chan));
 	}
-	if(cmd == "ocheck" || cmd == "ownercheck") {
+	else if(cmd == "ocheck" || cmd == "ownercheck") {
 		bot.say(chan, nick + ": Yes! You are my owner!")
 	}
 	else if(cmd == "msg") {
