@@ -24,7 +24,7 @@ function sendmemo(msg) {
     var memoarr = {
         "nick": [],
         "send": [],
-	    "memo": []
+	"memo": []
     }
     var nick = msg.nick;
     var chan = msg.args[0];
@@ -54,7 +54,7 @@ function runcmd(cmd, msg) {
 	var cloak = msg.host;
 	var chan = msg.args[0];
 	var text = msg.args[1].split(" ");
-	var cmd = text[1];
+	var cmd = text[1].toLowerCase();
 
         if(cmd == "trustedcheck" || cmd == "tcheck") {
 	   bot.say(chan, nick + ": Yes! You are trusted!");
@@ -64,7 +64,7 @@ function runcmd(cmd, msg) {
 	    bot.say(chan, send);
 	}
 	else if(cmd == "act") {
-        var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
+            var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
 	    bot.action(chan, send);
 	}
 	else if(cmd == "op") {
@@ -98,6 +98,39 @@ function runcmd(cmd, msg) {
 	    var morgan = fs.readFileSync('./morganstarot.txt').toString().split("\n");
             bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
 	}
+	else if(cmd == "coffee") {
+	    if(text.length == 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
+	    else { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(text[2])); }
+	}
+	else if(cmd == "tea") {
+	    if(text.length == 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
+	    else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
+	}
+	else if(cmd == "cookie") {
+	     if(text.length == 2) { bot.action(chan, "gets bcode a plate of cookies and a glass of milk".format(text[2])); }
+	}
+	else if(cmd == "goat") {
+	    if(text.length == 2) { bot.say(chan, "{0}'s goat walks by and kicks {1}".format(nick, text[2])); }
+	}
+	else if(cmd == "wolf") {
+	    if(text.length == 2) { bot.say(chan, "{0}'s wolf walks by and noms {1}".format(nick, text[2])); }
+        }
+	else if(cmd == "bear") {
+	    if(text.length == 2) { bot.say(chan, "{0}'s bear walks by and gives {1} a huge bear hug".format(nick, text[2])); }
+	}
+
+        else if(cmd == "kitty") {
+            if(text.length == 2) { bot.say(chan, "{0}'s kitty climbs into {1}'s lap, curls up, and falls asleep".format(nick, text[2])); }
+        }
+        else if(cmd == "penguin") {
+            if(text.length == 2) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
+        }
+        else if(cmd == "kekse" || cmd == "keks") {
+            if(text.length == 2) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
+        }
+        else if(cmd == "ping") {
+            bot.say(chan, "Pong!");
+        }
 }
 
 function log(msg) {

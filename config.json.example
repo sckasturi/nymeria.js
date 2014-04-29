@@ -4,7 +4,7 @@
     "chan": ["##techfilmer", "##techfilmer-bot"],
     "user": "olympicsbot",
     "logchan": "##techfilmer-bot",
-    "prefix": ".",
+    "prefix": "^",
     "trusted": {
         "cmd": [
 	    "tcheck",
@@ -55,7 +55,10 @@
 	"kitty",
 	"penguin",
 	"tea",
-	"troll"
+	"troll",
+	"ping",
+	"keke",
+	"kekse"
     ]
 }
 
