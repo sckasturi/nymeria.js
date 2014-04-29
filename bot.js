@@ -24,7 +24,7 @@ function sendmemo(msg) {
     var memoarr = {
         "nick": [],
         "send": [],
-	    "memo": []
+	     "memo": []
     }
     var nick = msg.nick;
     var chan = msg.args[0];
