@@ -70,11 +70,11 @@ function runcmd(cmd, msg) {
 	}
 	else if(cmd == "msg") {
 	    var send = msg.args[1].replace("{0}: msg {1} ".format(config.nick, text[2]), "");
-	    bot.say(chan, send);
+	    bot.say(text[2], send);
 	}
 	else if(cmd == "act") {
         var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
-	    bot.action(chan, send);
+	    bot.action(text[2], send);
 	}
 	else if(cmd == "op") {
 	    bot.send('MODE', chan, '+o', nick);
