@@ -112,11 +112,11 @@ function runcmd(cmd, msg) {
             bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
 	}
 	else if(cmd == "coffee") {
-	    if(text.length >= 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
+	    if(text.length == 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
 	    else { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(text[2])); }
 	}
 	else if(cmd == "tea") {
-	    if(text.length >= 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
+	    if(text.length == 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
 	    else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
 	}
 	else if(cmd == "cookie") {
