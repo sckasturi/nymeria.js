@@ -69,12 +69,16 @@ function runcmd(cmd, msg) {
 		bot.say(chan, nick + ": Yes! You are my owner!")
 	}
 	else if(cmd == "msg") {
-	    var send = msg.args[1].replace("{0}: msg {1} ".format(config.nick, text[2]), "");
-	    bot.say(text[2], send);
+		if(text[2].split(",").length == 1 && text[2][0] == "#") {
+	        var send = msg.args[1].replace("{0}: msg {1} ".format(config.nick, text[2]), "");
+	        bot.say(text[2], send);
+	    }
 	}
 	else if(cmd == "act") {
-        var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
-	    bot.action(text[2], send);
+		if(text[2].split(",").length == 1 && text[2][0] == "#") {
+            var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
+	        bot.action(text[2], send);
+	    }
 	}
 	else if(cmd == "op") {
 	    bot.send('MODE', chan, '+o', nick);
@@ -108,11 +112,11 @@ function runcmd(cmd, msg) {
             bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
 	}
 	else if(cmd == "coffee") {
-	    if(text.length >= 3) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
+	    if(text.length >= 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
 	    else { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(text[2])); }
 	}
 	else if(cmd == "tea") {
-	    if(text.length >= 3) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
+	    if(text.length >= 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
 	    else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
 	}
 	else if(cmd == "cookie") {
