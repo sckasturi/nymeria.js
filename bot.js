@@ -54,6 +54,10 @@ function runcmd(cmd, msg) {
     var chan = msg.args[0];
     var text = msg.args[1].split(" ");
     var cmd = text[1].toLowerCase();
+    
+    if(chan == config.nick) {
+        chan = nick;
+    }
 
     switch(cmd) {
     case "help":
@@ -186,6 +190,10 @@ bot.on('raw', function(msg) {
     var cloak = msg.host;
     var chan = msg.args[0];
     
+    if(chan == config.nick) {
+        chan = nick;
+    }
+
     if(msg.args[1][0] == config.prefix) {
         msg.args[1] = msg.args[1].replace(config.prefix, config.nick + ": ");
     }
