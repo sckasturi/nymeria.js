@@ -55,24 +55,27 @@ function runcmd(cmd, msg) {
     var text = msg.args[1].split(" ");
     var cmd = text[1].toLowerCase();
 
+    switch(cmd) {
     case "help":
         bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(config.cmd.join(", "), config.trusted.cmd.join(", "), config.op.cmd.join(", "), config.owner.cmd.join(", ")));
         break;
     case "list":
-        runcmd("help");
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(config.cmd.join(", "), config.trusted.cmd.join(", "), config.op.cmd.join(", "), config.owner.cmd.join(", ")));
         break;
     case "trustedcheck":
         bot.say(chan, nick + ": Yes! You are trusted!");
         break;
-    case  "tcheck":
-        runcmd("trustedcheck");
+    case "tcheck":
+        bot.say(chan, nick + ": Yes! You are trusted!");
+        break;
     case "opcheck":
         bot.say(chan, nick + ": Yes! You are an op in {0}!".format(chan));
         break;
     case "ocheck":
-        runcmd("ownercheck");
+        bot.say(chan, nick + ": Yes! You are my owner!");
+        break;
     case "ownercheck":
-        bot.say(chan, nick + ": Yes! You are my owner!")
+        bot.say(chan, nick + ": Yes! You are my owner!");
         break;
     case "msg":
         if(text[2].split(",").length == 1 && text[2][0] == "#") {
@@ -141,7 +144,7 @@ function runcmd(cmd, msg) {
         break;
     case "penguin":
         if(text.length >= 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
-        break;
+          break;
     case "kekse":
         if(text.length >= 3) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
         break;
@@ -158,6 +161,7 @@ function runcmd(cmd, msg) {
     case "botsnack":
         bot.action(chan, "noms happily :    3");
     break;
+    }
 }
 
 function log(msg) {

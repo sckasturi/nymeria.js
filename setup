@@ -14,13 +14,14 @@ if [[ ! -f memo.txt ]]; then
     echo 0,0,do not remove this memo > memo.txt
 fi
 
-if [[ ! -f ./node_modules ]]; then
+if [[ ! -d node_modules ]]; then
     echo Installing modules from npm
     echo
     npm install fwilson-irc-fork
 fi
-    
-echo Well, it looks like everything is setup\! 
+
+echo    
+echo Well, it looks like everything is setup! 
 echo If you have any questions feel free to contact me at
 echo srijay@techfilmer.com or file an issue 
 echo at https://github.com/sckasturi/nymeria.js/issues :\)
