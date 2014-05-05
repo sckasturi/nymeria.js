@@ -1,6 +1,6 @@
 var irc = require('fwilson-irc-fork');
 var cfg = require('./config.json');
-var bot = new irc.Client('chat.freenode.net', cfg.nick, {channels: cfg.chan, sasl: "true", userName: cfg.user, password: cfg.pass, port: 8001});
+var bot = new irc.Client('chat.freenode.net', cfg.nick, {channels: cfg.chan, sasl: "true", userName: cfg.user, password: cfg.pass});
 var sendmemo = require('./sendmemo');
 var runcmd = require('./runcmd');
 
