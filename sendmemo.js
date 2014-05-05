@@ -1,4 +1,7 @@
-function sendmemo(msg) {
+var fs = require('fs');
+var exec = require('child_process').exec;
+
+function sendmemo(msg, bot) {
     var memoarr = {
         "nick": [],
         "send": [],

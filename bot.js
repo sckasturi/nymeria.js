@@ -1,8 +1,6 @@
 var irc = require('fwilson-irc-fork');
-var config = require('./config.json');
-var bot = new irc.Client('chat.freenode.net', config.nick, {channels: config.chan, sasl: "true", userName: config.user, password: config.pass});
-var fs = require('fs');
-var exec = require('child_process').exec;
+var cfg = require('./config.json');
+var bot = new irc.Client('chat.freenode.net', cfg.nick, {channels: cfg.chan, sasl: "true", userName: cfg.user, password: cfg.pass, port: 8001});
 var sendmemo = require('./sendmemo');
 var runcmd = require('./runcmd');
 
@@ -27,7 +25,8 @@ if (!String.prototype.format) {
 
 
 function log(msg) {
-    bot.say(config.logchan, msg);
+	console.log(msg);
+    bot.say(cfg.logchan, msg);
 }
 
 console.log("Starting bot.");
@@ -48,45 +47,45 @@ bot.on('raw', function(msg) {
     var cloak = msg.host;
     var chan = msg.args[0];
     
-    if(chan == config.nick) {
+    if(chan == cfg.nick) {
         chan = nick;
     }
 
-    if(msg.args[1][0] == config.prefix) {
-        msg.args[1] = msg.args[1].replace(config.prefix, config.nick + ": ");
+    if(msg.args[1][0] == cfg.prefix) {
+        msg.args[1] = msg.args[1].replace(cfg.prefix, cfg.nick + ": ");
     }
     
     var text = msg.args[1].split(" ");
     var cmd = text[1]
         
-    sendmemo(msg);
+    sendmemo(msg, bot);
 
-    if(text[0] == config.nick + ":" || text[0] == config.nick + ",") {
-        if(config.trusted.cmd.indexOf(cmd) >= 0) {
-        if(config.trusted.cloaks.indexOf(cloak) >= 0) {
-            runcmd(cmd, msg);
+    if(text[0] == cfg.nick + ":" || text[0] == cfg.nick + ",") {
+        if(cfg.trusted.cmd.indexOf(cmd) >= 0) {
+        if(cfg.trusted.cloaks.indexOf(cloak) >= 0) {
+            runcmd(cmd, msg, bot);
         }
         else {
             bot.say(chan, nick + ": You're not the boss of me!");
         }}
 
-        else if(config.op.cmd.indexOf(cmd) >= 0) {
-        if(Object.keys(config.op.cloaks).indexOf(cloak) >= 0) {
-        if(config.op.cloaks[cloak].indexOf(chan) >= 0) {
-            runcmd(cmd, msg);
+        else if(cfg.op.cmd.indexOf(cmd) >= 0) {
+        if(Object.keys(cfg.op.cloaks).indexOf(cloak) >= 0) {
+        if(cfg.op.cloaks[cloak].indexOf(chan) >= 0) {
+            runcmd(cmd, msg, bot);
         }}
         else {
             bot.say(chan, nick + ": You're not the boss of me!");
         }}
-        if(config.owner.cmd.indexOf(cmd) >= 0) {
-        if(config.owner.cloaks.indexOf(cloak) >= 0) {
-            runcmd(cmd, msg);
+        if(cfg.owner.cmd.indexOf(cmd) >= 0) {
+        if(cfg.owner.cloaks.indexOf(cloak) >= 0) {
+            runcmd(cmd, msg, bot);
         }
         else {
             bot.say(chan, nick + ": You're not the boss of me!");
         }}
-        if(config.cmd.indexOf(cmd) >= 0) {
-             runcmd(cmd, msg);
+        if(cfg.cmd.indexOf(cmd) >= 0) {
+             runcmd(cmd, msg, bot);
         }
     }
     }

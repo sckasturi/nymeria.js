@@ -1,21 +1,23 @@
+var cfg = require('./config.json')
+var exec = require('child_process').exec;
 
 
-function runcmd(cmd, msg) {
+function runcmd(cmd, msg, bot) {
     var nick = msg.nick;
     var cloak = msg.host;
     var chan = msg.args[0];
     var text = msg.args[1].split(" ");
     var cmd = text[1].toLowerCase();
     
-    if(chan == config.nick) {
+    if(chan == cfg.nick) {
         chan = nick;
     }
     switch(cmd) {
     case "help":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(config.cmd.join(", "), config.trusted.cmd.join(", "), config.op.cmd.join(", "), config.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "list":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(config.cmd.join(", "), config.trusted.cmd.join(", "), config.op.cmd.join(", "), config.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "trustedcheck":
         bot.say(chan, nick + ": Yes! You are trusted!");
@@ -34,13 +36,13 @@ function runcmd(cmd, msg) {
         break;
     case "msg":
         if(text[2].split(",").length == 1 && text[2][0] == "#") {
-            var send = msg.args[1].replace("{0}: msg {1} ".format(config.nick, text[2]), "");
+            var send = msg.args[1].replace("{0}: msg {1} ".format(cfg.nick, text[2]), "");
             bot.say(text[2], send);
         }
         break;
     case "act":
         if(text[2].split(",").length == 1 && text[2][0] == "#") {
-            var send = msg.args[1].replace("{0}: act {1} ".format(config.nick, text[2]), "");
+            var send = msg.args[1].replace("{0}: act {1} ".format(cfg.nick, text[2]), "");
             bot.action(text[2], send);
         }
         break;
@@ -51,28 +53,34 @@ function runcmd(cmd, msg) {
         bot.send('MODE', chan, '-o', nick);
         break;
     case "mode":
-        var send = msg.args[1].replace("{0}: mode".format(config.nick) , "");
+        var send = msg.args[1].replace("{0}: mode".format(cfg.nick) , "");
         bot.conn.write("MODE " + chan + send + "\n");
         break;
     case "do":
-        var send = msg.args[1].replace("{0}: do".format(config.nick) , "");
+        var send = msg.args[1].replace("{0}: do".format(cfg.nick) , "");
         console.log(send);
+        bot.say(cfg.logchan, send)
         bot.conn.write(send + "\n");
         break;
     case "ddate":
         exec("ddate", function(error, stdout, stderr) { bot.say(chan, stdout); });
         break;
     case "memo":
-        var memo = msg.args[1].replace(config.nick + ": memo " + text[2] + " ", "");
+        var memo = msg.args[1].replace(cfg.nick + ": memo " + text[2] + " ", "");
         if(text[2].split(",").length == 1) {
             bot.say(chan, "okay, sending your memo");
             exec("echo {0},{1},{2} >> memo.txt".format(text[2], nick, memo), 
-                function(error, stdout, stderr) { log("[{0}] {1} sends a memo to {2}: {3}".format(chan, nick, text[2], memo)); });
+                function(error, stdout, stderr) { 
+                    var send = "[{0}] {1} sends a memo to {2}: {3}".format(chan, nick, text[2], memo);
+                    console.log(send);
+                    bot.say(cfg.logchan, send); 
+                }
+            );
         }
         break;
     case "oracle":
         var morgan = fs.readFileSync('./morganstarot.txt').toString().split("\n");
-            bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
+        bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
         break;
     case "coffee":
         if(text.length == 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
@@ -110,11 +118,11 @@ function runcmd(cmd, msg) {
         bot.quit();
         break;
     case "nick":
-        config.nick = text[2]
+        cfg.nick = text[2]
         bot.send("NICK", text[2]);
         break;
     case "botsnack":
-        bot.action(chan, "noms happily :    3");
+        bot.action(chan, "noms happily :3");
     break;
     }
 }
