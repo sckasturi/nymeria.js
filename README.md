@@ -6,7 +6,7 @@ It's Nymeria! But in `node.js`! Okay, now you're probably wondering, what is Nym
 Live Demo
 ---------
 
-A live demo of nymeria.js can be found on `chat.freenode.net/6667` in the channel `##techfilmer` (web chat: [here](https://kiwiirc.com/client/irc.freenode.net/?nick=skasvisitor%7C?##techfilmer)) under the nick Nymeria-js.
+A live demo of nymeria.js can be found on `chat.freenode.net/6667` in the channel `##techfilmer` (web chat: [here](https://kiwiirc.com/client/irc.freenode.net/?nick=skasvisitor%7C?##techfilmer)) under the nick nagano.
 
 How to run
 ----------
