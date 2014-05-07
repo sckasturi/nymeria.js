@@ -1,6 +1,6 @@
 var cfg = require('./config.json')
 var exec = require('child_process').exec;
-
+var vs = require('fs');
 
 function runcmd(cmd, msg, bot) {
     var nick = msg.nick;
