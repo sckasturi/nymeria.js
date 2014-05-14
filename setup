@@ -1,4 +1,5 @@
-echo Hi there, it looks like you are running Nymeria.js for the first time, let\'s check some stuff\!
+echo Hi there, it looks like you are running Nymeria.js for 
+echo the first time, let\'s check some stuff\!
 echo
 
 if [[ ! -f config.json ]]; then
