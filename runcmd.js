@@ -114,6 +114,7 @@ function runcmd(cmd, msg, bot) {
     case "ping":
         bot.say(chan, "Pong!");
         break;
+<<<<<<< HEAD
     case "quit":
         bot.disconnect(nick);
         break;
@@ -123,6 +124,8 @@ function runcmd(cmd, msg, bot) {
     case "part":
         if(text.length >= 3) { bot.part(text[2]); }
         else { bot.part(chan); }
+=======
+>>>>>>> 33a62304608d426ce860b78fc1e1b70373f940a1
     case "nick":
         cfg.nick = text[2]
         bot.send("NICK", text[2]);
