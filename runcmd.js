@@ -9,7 +9,7 @@ function runcmd(cmd, msg, bot) {
     var text = msg.args[1].split(" ");
     var cmd = text[1].toLowerCase();
     
-    if(chan == cfg.nick) {
+    if(chan === cfg.nick) {
         chan = nick;
     }
     switch(cmd) {
@@ -35,13 +35,13 @@ function runcmd(cmd, msg, bot) {
         bot.say(chan, nick + ": Yes! You are my owner!");
         break;
     case "msg":
-        if(text[2].split(",").length == 1 && text[2][0] == "#") {
+        if(text[2].split(",").length === 1 && text[2][0] === "#") {
             var send = msg.args[1].replace("{0}: msg {1} ".format(cfg.nick, text[2]), "");
             bot.say(text[2], send);
         }
         break;
     case "act":
-        if(text[2].split(",").length == 1 && text[2][0] == "#") {
+        if(text[2].split(",").length === 1 && text[2][0] === "#") {
             var send = msg.args[1].replace("{0}: act {1} ".format(cfg.nick, text[2]), "");
             bot.action(text[2], send);
         }
@@ -67,7 +67,7 @@ function runcmd(cmd, msg, bot) {
         break;
     case "memo":
         var memo = msg.args[1].replace(cfg.nick + ": memo " + text[2] + " ", "");
-        if(text[2].split(",").length == 1) {
+        if(text[2].split(",").length === 1) {
             bot.say(chan, "okay, sending your memo");
             exec("echo {0},{1},{2} >> memo.txt".format(text[2], nick, memo), 
                 function(error, stdout, stderr) { 
@@ -83,11 +83,11 @@ function runcmd(cmd, msg, bot) {
         bot.say(chan, morgan[Math.floor(Math.random() * morgan.length)]);
         break;
     case "coffee":
-        if(text.length == 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
+        if(text.length === 2) { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(nick)); }
         else { bot.action(chan, "hands {0} a steaming cup of delicious coffee".format(text[2])); }
         break;
     case "tea":
-        if(text.length == 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
+        if(text.length === 2) { bot.action(chan, "hands {0} a nice cup of tea.".format(nick)); }
         else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
         break;
     case "cookie":

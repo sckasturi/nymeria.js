@@ -2,7 +2,7 @@ var irc = require('fwilson-irc-fork');
 var cfg = require('./config.json');
 var bot = new irc.Client('chat.freenode.net', cfg.nick, {channels: cfg.chan, sasl: "true", userName: cfg.user, password: cfg.pass});
 var sendmemo = require('./sendmemo');
-var runcmd = require('./runcmd');
+var command = require('./runcmd');
 
 
 bot.addListener('error', function(message) {
@@ -31,7 +31,16 @@ function log(msg) {
 
 console.log("Starting bot.");
 
-
+function runcmd(cmd, msg) {
+    if(cmd === "reload") {
+        cfg = require('./config.json');
+        sendmemo = require('./sendmemo');
+        cmdrun = require('./runcmd');
+    }
+    else() {
+        cmdrun(cmd, msg, bot);
+    }
+}
 bot.addListener('pm', function (nick, msg) {
     log("<" + nick + "> " + msg);
 });
