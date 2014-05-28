@@ -14,10 +14,10 @@ function runcmd(cmd, msg, bot) {
     }
     switch(cmd) {
     case "help":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "list":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "trustedcheck":
         bot.say(chan, nick + ": Yes! You are trusted!");
@@ -109,14 +109,20 @@ function runcmd(cmd, msg, bot) {
         if(text.length >= 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
           break;
     case "kekse":
-        if(text.length >= 3) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
+        if(text.length >= 3) { bot.action(chan, "holt {0} einen Teller Kekse und ein Glas Milch".format(text[2])); }
         break;
     case "ping":
         bot.say(chan, "Pong!");
         break;
     case "quit":
-        bot.quit();
+        bot.disconnect(nick);
         break;
+    case "join":
+        bot.join(text[2];
+        break;
+    case "part":
+        if(text.length >= 3) { bot.part(text[2]); }
+        else { bot.part(chan); }
     case "nick":
         cfg.nick = text[2]
         bot.send("NICK", text[2]);
