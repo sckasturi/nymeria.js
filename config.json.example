@@ -36,7 +36,8 @@
 	    "join",
 	    "part",
 	    "quit",
-	    "nick"
+	    "nick",
+        "reload"
 	],
 	"cloaks": [
 	    "april-fools/2014/runnerup/skasturi",

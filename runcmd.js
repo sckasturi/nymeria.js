@@ -114,9 +114,6 @@ function runcmd(cmd, msg, bot) {
     case "ping":
         bot.say(chan, "Pong!");
         break;
-    case "quit":
-        bot.quit();
-        break;
     case "nick":
         cfg.nick = text[2]
         bot.send("NICK", text[2]);
