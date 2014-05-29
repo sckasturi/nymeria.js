@@ -14,10 +14,10 @@ function runcmd(cmd, msg, bot) {
     }
     switch(cmd) {
     case "help":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "list":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Onwer Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
         break;
     case "trustedcheck":
         bot.say(chan, nick + ": Yes! You are trusted!");
