@@ -133,6 +133,7 @@ function runcmd(cmd, msg, bot) {
         break;
     case "pull":
          exec("git pull", function(error, stdout, stderr) { bot.say(chan, stdout); });
+         break;
     }
 }
 
