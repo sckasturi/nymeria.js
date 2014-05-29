@@ -6,7 +6,7 @@ var cmdrun = require('./runcmd');
 
 
 bot.addListener('error', function(message) {
-    log('error: ' +  message);
+    log('error: ' +  JSON.stringify(message));
 });
 
 if (!String.prototype.format) {
@@ -26,7 +26,7 @@ if (!String.prototype.format) {
 
 function log(msg) {
 	console.log(msg);
-    bot.say(cfg.logchan, msg);
+        bot.say(cfg.logchan, msg);
 }
 
 console.log("Starting bot.");
