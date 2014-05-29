@@ -109,10 +109,20 @@ function runcmd(cmd, msg, bot) {
         if(text.length >= 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
           break;
     case "kekse":
-        if(text.length >= 3) { bot.action(chan, "holt {0}  einen Teller Kekse und ein Glas Milch".format(text[2])); }
+        if(text.length >= 3) { bot.action(chan, "holt {0} einen Teller Kekse und ein Glas Milch".format(text[2])); }
         break;
     case "ping":
         bot.say(chan, "Pong!");
+        break;
+    case "quit":
+        bot.disconnect(nick);
+        break;
+    case "join":
+        bot.join(text[2]);
+        break;
+    case "part":
+        if(text.length >= 3) { bot.part(text[2]); }
+        else { bot.part(chan); }
         break;
     case "nick":
         cfg.nick = text[2]
@@ -120,7 +130,9 @@ function runcmd(cmd, msg, bot) {
         break;
     case "botsnack":
         bot.action(chan, "noms happily :3");
-    break;
+        break;
+    case "pull":
+         exec("git pull", function(error, stdout, stderr) { bot.say(chan, stdout); });
     }
 }
 
