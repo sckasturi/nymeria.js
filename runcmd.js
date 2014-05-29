@@ -114,25 +114,25 @@ function runcmd(cmd, msg, bot) {
     case "ping":
         bot.say(chan, "Pong!");
         break;
-<<<<<<< HEAD
     case "quit":
         bot.disconnect(nick);
         break;
     case "join":
-        bot.join(text[2];
+        bot.join(text[2]);
         break;
     case "part":
         if(text.length >= 3) { bot.part(text[2]); }
         else { bot.part(chan); }
-=======
->>>>>>> 33a62304608d426ce860b78fc1e1b70373f940a1
+        break;
     case "nick":
         cfg.nick = text[2]
         bot.send("NICK", text[2]);
         break;
     case "botsnack":
         bot.action(chan, "noms happily :3");
-    break;
+        break;
+    case "pull":
+         exec("git pull", function(error, stdout, stderr) { bot.say(chan, stdout); });
     }
 }
 
