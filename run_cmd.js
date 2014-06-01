@@ -1,8 +1,9 @@
 var cfg = require('./config.json')
 var exec = require('child_process').exec;
 var fs = require('fs');
+var utils = require('./utils');
 
-function runcmd(cmd, msg, bot) {
+function run_cmd(cmd, msg, bot) {
     var nick = msg.nick;
     var cloak = msg.host;
     var chan = msg.args[0];
@@ -14,10 +15,10 @@ function runcmd(cmd, msg, bot) {
     }
     switch(cmd) {
     case "help":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, utils.help(cfg));
         break;
     case "list":
-        bot.say(chan, "Normal Commands: [{0}], Trusted Commands: [{1}], Op Commands: [{2}], Owner Commands: [{3}]".format(cfg.cmd.join(", "), cfg.trusted.cmd.join(", "), cfg.op.cmd.join(", "), cfg.owner.cmd.join(", ")));
+        bot.say(chan, utils.help(cfg));
         break;
     case "trustedcheck":
         bot.say(chan, nick + ": Yes! You are trusted!");
@@ -35,16 +36,10 @@ function runcmd(cmd, msg, bot) {
         bot.say(chan, nick + ": Yes! You are my owner!");
         break;
     case "msg":
-        if(text[2].split(",").length === 1 && text[2][0] === "#") {
-            var send = msg.args[1].replace("{0}: msg {1} ".format(cfg.nick, text[2]), "");
-            bot.say(text[2], send);
-        }
+        utils.msg(msg, bot, text);
         break;
     case "act":
-        if(text[2].split(",").length === 1 && text[2][0] === "#") {
-            var send = msg.args[1].replace("{0}: act {1} ".format(cfg.nick, text[2]), "");
-            bot.action(text[2], send);
-        }
+        utils.msg(msg, bot, text);
         break;
     case "op":
         bot.send('MODE', chan, '+o', nick);
@@ -58,25 +53,13 @@ function runcmd(cmd, msg, bot) {
         break;
     case "do":
         var send = msg.args[1].replace("{0}: do".format(cfg.nick) , "");
-        console.log(send);
-        bot.say(cfg.logchan, send)
         bot.conn.write(send + "\n");
         break;
     case "ddate":
         exec("ddate", function(error, stdout, stderr) { bot.say(chan, stdout); });
         break;
     case "memo":
-        var memo = msg.args[1].replace(cfg.nick + ": memo " + text[2] + " ", "");
-        if(text[2].split(",").length === 1) {
-            bot.say(chan, "okay, sending your memo");
-            exec("echo {0},{1},{2} >> memo.txt".format(text[2], nick, memo), 
-                function(error, stdout, stderr) { 
-                    var send = "[{0}] {1} sends a memo to {2}: {3}".format(chan, nick, text[2], memo);
-                    console.log(send);
-                    bot.say(cfg.logchan, send); 
-                }
-            );
-        }
+        utils.memo(msg, bot, text, cfg);
         break;
     case "oracle":
         var morgan = fs.readFileSync('./morganstarot.txt').toString().split("\n");
@@ -91,14 +74,15 @@ function runcmd(cmd, msg, bot) {
         else { bot.action(chan, "hands {0} a nice cup of tea".format(text[2])); }
         break;
     case "cookie":
-        if(text.length >= 3) { bot.action(chan, "gets {0} a plate of cookies and a glass of milk".format(text[2])); }
+        if(text.length >= 3) { 
+            bot.action(chan, "gets {0} a plate of cookies and a glass of milk".format(text[2])); }
         break;
     case "goat":
         if(text.length >= 3) { bot.say(chan, "{0}'s goat walks by and kicks {1}".format(nick, text[2])); }
         break;
     case "wolf":
         if(text.length >= 3) { bot.say(chan, "{0}'s wolf walks by and noms {1}".format(nick, text[2])); }
-            break;
+        break;
     case "bear":
         if(text.length >= 3) { bot.say(chan, "{0}'s bear walks by and gives {1} a huge bear hug".format(nick, text[2])); }
         break;
@@ -107,7 +91,7 @@ function runcmd(cmd, msg, bot) {
         break;
     case "penguin":
         if(text.length >= 3) { bot.say(chan, "{0}'s penguin waddles by and slaps {1}!".format(nick, text[2])); }
-          break;
+        break;
     case "kekse":
         if(text.length >= 3) { bot.action(chan, "holt {0} einen Teller Kekse und ein Glas Milch".format(text[2])); }
         break;
@@ -137,4 +121,4 @@ function runcmd(cmd, msg, bot) {
     }
 }
 
-module.exports = runcmd;
+module.exports = run_cmd;
